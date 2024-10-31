@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - WebApplication1</title>
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg text-white">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-5xl font-extrabold">@ViewData["Title"]</h1>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="bg-blue-600 p-4 shadow-md">
+            <div class="max-w-7xl mx-auto">
+                <ul class="flex space-x-8 text-lg">
+                    <li>
+                        <a href="/" class="text-white hover:text-gray-300 flex items-center space-x-2 transition duration-300 ease-in-out">
+                            <!-- Home Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M9 21V9h6v12" />
+                            </svg>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Books" class="text-white hover:text-gray-300 flex items-center space-x-2 transition duration-300 ease-in-out">
+                            <!-- Book Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 0H5a2 2 0 00-2 2v12a2 2 0 002 2h7m0 0v-2m7 2h-7m7-2V5a2 2 0 00-2-2h-7" />
+                            </svg>
+                            <span>Books</span>
+                        </a>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a href="/Home/AdminDashboard" class="text-white hover:text-gray-300 flex items-center space-x-2 transition duration-300 ease-in-out">
+                                    <!-- Admin Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4v16h18V4M3 8h18M3 12h18M3 16h18" />
+                                    </svg>
+                                    <span>Admin Dashboard</span>
+                                </a>
+                            </li>
+                        }
+
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="inline">
+                                <button type="submit" class="text-white hover:text-gray-300 flex items-center space-x-2 transition duration-300 ease-in-out">
+                                    <!-- Logout Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6-4v8" />
+                                    </svg>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="/Account/Login" class="text-white hover:text-gray-300 flex items-center space-x-2 transition duration-300 ease-in-out">
+                                <!-- Login Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H3m12 0l-4 4m4-4l-4-4" />
+                                </svg>
+                                <span>Login</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Account/Register" class="text-white hover:text-gray-300 flex items-center space-x-2 transition duration-300 ease-in-out">
+                                <!-- Register Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7h1a2 2 0 012 2v8a2 2 0 01-2 2h-1m-4-4v-6a2 2 0 00-2-2H8a2 2 0 00-2 2v6m4-4h.01M16 21v-2a4 4 0 00-8 0v2" />
+                                </svg>
+                                <span>Register</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-6">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-center p-8 mt-10">
+        <p>&copy; 2024 - Library Management System. All Rights Reserved.</p>
+        <div class="flex justify-center space-x-6 mt-4">
+            <a href="#" class="hover:text-gray-300 transition duration-300 ease-in-out">
+                <!-- Facebook Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v6a9 9 0 11-6-8.71V9" />
+                </svg>
+            </a>
+            <a href="#" class="hover:text-gray-300 transition duration-300 ease-in-out">
+                <!-- Twitter Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 4.92c-.74.33-1.53.54-2.36.64a4.12 4.12 0 001.81-2.27 7.87 7.87 0 01-2.59 1A4.08 4.08 0 0015 3a4.09 4.09 0 00-4.05 4.04c0 .32.04.64.12.94a11.66 11.66 0 01-8.47-4.3 4.1 4.1 0 00-.55 2.04c0 1.4.72 2.64 1.83 3.37A4.06 4.06 0 013 9.2v.05a4.09 4.09 0 003.28 4 4.11 4.11 0 01-1.85.07 4.09 4.09 0 003.81 2.83A8.23 8.23 0 013 19.8a11.63 11.63 0 006.29 1.84c7.55 0 11.68-6.26 11.68-11.68 0-.18 0-.36-.01-.53A8.35 8.35 0 0022 4.92z" />
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

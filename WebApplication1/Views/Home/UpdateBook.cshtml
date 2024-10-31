@@ -1,0 +1,31 @@
+@model WebApplication1.Models.Book
+
+@{
+    ViewData["Title"] = "Update Book";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="container mx-auto">
+    <h2 class="text-3xl font-bold mb-6">Update Book</h2>
+
+    <form asp-action="UpdateBook" method="post">
+        <input type="hidden" asp-for="BookId" />
+
+        <div class="mb-4">
+            <label asp-for="Title" class="block text-lg font-bold mb-2">Title</label>
+            <input asp-for="Title" class="border rounded w-full py-2 px-3" />
+            <span asp-validation-for="Title" class="text-red-500"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="AuthorId" class="block text-lg font-bold mb-2">Author</label>
+            <select asp-for="AuthorId" class="border rounded w-full py-2 px-3" asp-items="@(new SelectList(ViewBag.Authors, "AuthorId", "Name"))"></select>
+            <span asp-validation-for="AuthorId" class="text-red-500"></span>
+        </div>
+
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            Update Book
+        </button>
+    </form>
+</div>

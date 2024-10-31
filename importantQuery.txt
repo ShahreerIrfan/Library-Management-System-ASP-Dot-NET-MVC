@@ -1,0 +1,6 @@
+use LMSDB;
+
+DELETE FROM Borrowings
+WHERE BorrowingId IN (
+    SELECT TOP 5 BorrowingId FROM Borrowings ORDER BY BorrowingId
+);

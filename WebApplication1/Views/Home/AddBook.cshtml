@@ -1,0 +1,36 @@
+@model WebApplication1.Models.Book
+
+@{
+    ViewData["Title"] = "Add Book";
+}
+
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="max-w-md mx-auto mt-10">
+    <h2 class="text-2xl font-bold mb-4">Add New Book</h2>
+
+    <form asp-action="AddBook" method="post" class="space-y-4">
+        <div>
+            <label asp-for="Title" class="block text-sm font-medium">Book Title</label>
+            <input asp-for="Title" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <span asp-validation-for="Title" class="text-red-600"></span>
+        </div>
+
+        <div>
+            <label asp-for="AuthorId" class="block text-sm font-medium">Author</label>
+            <select asp-for="AuthorId" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                <option value="">-- Select an Author --</option>
+                @foreach (var author in ViewBag.Authors)
+                {
+                    <option value="@author.AuthorId">@author.Name</option>
+                }
+            </select>
+            <span asp-validation-for="AuthorId" class="text-red-600"></span>
+        </div>
+
+        <div>
+            <button type="submit" class="w-full bg-blue-600 text-white rounded-md p-2">Add Book</button>
+        </div>
+    </form>
+</div>

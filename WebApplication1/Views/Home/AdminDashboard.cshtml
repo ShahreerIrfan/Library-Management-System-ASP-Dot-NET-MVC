@@ -1,0 +1,156 @@
+@model IEnumerable<WebApplication1.Models.Book>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var totalBooks = Model.Count();  // Calculate the total number of books
+}
+
+<!-- Tailwind CDN -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<!-- Modern Google Font for sleek and clean design -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+    .card {
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+    .action-btn {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .dashboard-header {
+        background: linear-gradient(90deg, #1D976C, #93F9B9);
+        padding: 30px;
+        border-radius: 10px;
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .content-section {
+        background-color: #f9fafb;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+        .content-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 15px;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            color: #4B5563;
+        }
+
+    .total-books {
+        background-color: #E5F9E0;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+        .total-books h2 {
+            font-size: 2.5rem;
+            color: #38A169;
+        }
+
+        .total-books span {
+            font-size: 1.2rem;
+            color: #4B5563;
+        }
+</style>
+
+<div class="container mx-auto py-10">
+    <!-- Admin Dashboard Header -->
+    <div class="dashboard-header">
+        <h1 class="text-5xl font-bold">Admin Dashboard</h1>
+        <p class="mt-3 text-xl">
+            Manage books, monitor borrowing activity, and maintain the Library Management System effortlessly.
+        </p>
+    </div>
+
+    <!-- Total Books Section -->
+    <div class="total-books">
+        <h2>@totalBooks</h2>
+        <span>Total Books in the Library</span>
+    </div>
+
+    <!-- Library Management System Overview -->
+    <div class="content-section">
+        <h2>About the Library Management System</h2>
+        <p>
+            Our Library Management System is designed to simplify the process of managing a collection of books, allowing administrators
+            to track book availability and monitor borrowings. With this system, admins can easily add, update, or remove books from the library's catalog.
+            In addition, the borrowing process is streamlined, ensuring that both users and admins can access relevant information efficiently.
+        </p>
+        <p class="mt-3">
+            This system offers a user-friendly interface with powerful features that empower administrators to oversee the library seamlessly.
+            Keep track of every borrowing transaction, optimize the book catalog, and ensure that users have a smooth experience managing their book requests.
+        </p>
+    </div>
+
+    
+    <div class="mb-8 flex justify-between">
+        <a href="/Home/AddBook" class="btn bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg text-lg">
+            <i class="fas fa-plus-circle"></i> Add Book
+        </a>
+        <a href="/Home/AdminBorrowList" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            View Borrow List
+        </a>
+    </div>
+
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @foreach (var book in Model)
+        {
+            <div class="card bg-white p-6 rounded-lg">
+                <h3 class="text-2xl font-bold text-gray-800">@book.Title</h3>
+                <p class="text-md text-gray-600">Author: @book.Author.Name</p>
+
+                <div class="action-btn">
+                    <a href="/Home/UpdateBook?id=@book.BookId" class="btn bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg">
+                        <i class="fas fa-edit"></i> Update Book
+                    </a>
+
+                    <form asp-action="DeleteBook" method="post">
+                        <input type="hidden" name="id" value="@book.BookId" />
+                        <button type="submit" class="btn bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg">
+                            <i class="fas fa-trash-alt"></i> Delete Book
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

@@ -1,0 +1,62 @@
+@model IEnumerable<WebApplication1.Models.Borrowing>
+
+@{
+    ViewData["Title"] = "Borrowing List";
+}
+
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="container mx-auto">
+    <h2 class="text-3xl font-bold mb-6">Borrowing List (updated)</h2>
+
+    <table class="min-w-full bg-white border">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border">Book Title</th>
+                <th class="py-2 px-4 border">User</th>
+                <th class="py-2 px-4 border">Borrowed At</th>
+                <th class="py-2 px-4 border">Return Date</th>
+                <th class="py-2 px-4 border">Remaining Days</th>
+                <th class="py-2 px-4 border">Returned At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var borrowing in Model)
+            {
+                // Calculate return date (10 days after BorrowedAt)
+                var returnDate = borrowing.BorrowedAt.AddDays(10);
+
+                // Calculate remaining days
+                var remainingDays = (returnDate - DateTime.Now).Days;
+
+                <tr>
+                    <td class="py-2 px-4 border">@borrowing.Book.Title</td>
+                    <td class="py-2 px-4 border">@borrowing.User.Username</td>
+                    <td class="py-2 px-4 border">@borrowing.BorrowedAt.ToString("yyyy-MM-dd")</td>
+                    <td class="py-2 px-4 border">@returnDate.ToString("yyyy-MM-dd")</td>
+                    <td class="py-2 px-4 border">
+                        @if (remainingDays > 0)
+                        {
+                            @($"{remainingDays} days")
+                        }
+                        else
+                        {
+                            <span class="text-red-500">Overdue</span>
+                        }
+                    </td>
+                    <td class="py-2 px-4 border">
+                        @if (borrowing.ReturnedAt.HasValue)
+                        {
+                            @borrowing.ReturnedAt?.ToString("yyyy-MM-dd")
+                        }
+                        else
+                        {
+                            <span class="text-red-500">Not returned yet</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
